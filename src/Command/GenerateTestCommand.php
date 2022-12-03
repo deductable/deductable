@@ -36,15 +36,4 @@ class GenerateTestCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function getExampleCode()
-    {
-        return <<<'CODE'
-<?php
-
-function test($foo)
-{
-    var_dump($foo);
-}
-CODE;
-    }
 }
