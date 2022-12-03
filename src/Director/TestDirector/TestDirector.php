@@ -7,10 +7,7 @@ use App\Builder\TestBuilder\Contract\TestBuilderInterface;
 use PhpParser\Error;
 use PhpParser\NodeDumper;
 use PhpParser\ParserFactory;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\Finder\Finder;
 use Symplify\SmartFileSystem\SmartFileInfo;
-use Symplify\SmartFileSystem\SmartFileSystem;
 
 class TestDirector
 {
