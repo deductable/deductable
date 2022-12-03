@@ -22,6 +22,12 @@ class TestDirector
         $testBuilder->setMethods(['']);
     }
 
+
+    public function analyzeTests(SmartFileInfo $file) : void
+    {
+
+    }
+
     public function makeTest(SmartFileInfo $file) : void
     {
         $content = $file->getContents();

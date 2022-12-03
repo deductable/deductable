@@ -1,4 +1,4 @@
-# Deduct
+# Deductable
 ### The phpunit test generator
 
 run: 
