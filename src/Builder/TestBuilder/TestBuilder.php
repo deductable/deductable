@@ -27,9 +27,14 @@ class TestBuilder implements TestBuilderInterface
         return $test;
     }
 
-    public function setName(string $name): void
+    public function setFilename(string $filename): void
     {
-        $this->test->setName($name);
+        $this->test->setFilename($filename);
+    }
+
+    public function setClassName(string $className): void
+    {
+        $this->test->setClassName($className);
     }
 
     public function setAst(array $ast): void
@@ -40,5 +45,10 @@ class TestBuilder implements TestBuilderInterface
     public function setFile(SmartFileInfo $file): void
     {
         $this->test->setFile($file);
+    }
+
+    public function setContent(array $content): void
+    {
+        $this->test->setContent($content);
     }
 }

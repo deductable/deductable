@@ -2,7 +2,7 @@
 
 namespace App\CodeExample;
 
-class SimplestTest
+class SimplestExample
 {
 
     public function getTruth() : bool

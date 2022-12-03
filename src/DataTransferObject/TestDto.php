@@ -7,8 +7,14 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 
 class TestDto
 {
-    private string $name;
+    private string $className;
+    private string $filename;
     private SmartFileInfo $file;
+
+    /**
+     * @var array<int, Stmt> $content
+     */
+    private array $content;
 
     /**
      * @var array<int, Stmt> $ast
@@ -18,17 +24,33 @@ class TestDto
     /**
      * @return string
      */
-    public function getName(): string
+    public function getClassName(): string
     {
-        return $this->name;
+        return $this->className;
     }
 
     /**
-     * @param string $name
+     * @param string $className
      */
-    public function setName(string $name): void
+    public function setClassName(string $className): void
     {
-        $this->name = $name;
+        $this->className = $className;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilename(): string
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param string $filename
+     */
+    public function setFilename(string $filename): void
+    {
+        $this->filename = $filename;
     }
 
     /**
@@ -62,4 +84,21 @@ class TestDto
     {
         $this->ast = $ast;
     }
+
+    /**
+     * @return array<int,Stmt>
+     */
+    public function getContent(): array
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param array<int,Stmt> $content
+     */
+    public function setContent(array $content): void
+    {
+        $this->content = $content;
+    }
+
 }
