@@ -3,41 +3,42 @@
 namespace App\Builder\TestBuilder;
 
 use App\Builder\TestBuilder\Contract\TestBuilderInterface;
-use App\Model\Test;
-use PHPUnit\Framework\TestCase;
+use App\DataTransferObject\TestDto;
+use Symplify\SmartFileSystem\SmartFileInfo;
 
 class TestBuilder implements TestBuilderInterface
 {
-    private Test $test;
+    private TestDto $test;
 
     public function __construct()
     {
         $this->reset();
     }
 
-    public function reset()
+    public function reset() : void
     {
-        $this->test = new Test();
+        $this->test = new TestDto();
     }
 
-    public function setSetup()
-    {
-        $this->test->setName('');
-    }
-
-    public function setMethods()
-    {
-        return [
-            'some_first_test' => 'method content'
-        ];
-    }
-
-    public function getObject() : Test
+    public function getObject() : TestDto
     {
         $test = $this->test;
         $this->reset();
         return $test;
     }
 
+    public function setName(string $name): void
+    {
+        $this->test->setName($name);
+    }
 
+    public function setAst(array $ast): void
+    {
+        $this->test->setAst($ast);
+    }
+
+    public function setFile(SmartFileInfo $file): void
+    {
+        $this->test->setFile($file);
+    }
 }

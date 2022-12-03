@@ -30,7 +30,7 @@ class GenerateTestCommand extends Command
         foreach ($files as $splFileInfo)
         {
             $file = new SmartFileInfo($splFileInfo);
-            $director->makeTest($file);
+            $director->makeTestCase($testBuilder, $file);
         }
 
         return Command::SUCCESS;

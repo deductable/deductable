@@ -4,6 +4,7 @@ namespace App\Director\TestDirector;
 
 
 use App\Builder\TestBuilder\Contract\TestBuilderInterface;
+use App\Builder\TestBuilder\TestBuilder;
 use PhpParser\Error;
 use PhpParser\NodeDumper;
 use PhpParser\ParserFactory;
@@ -15,8 +16,6 @@ class TestDirector
     public function __construct(TestBuilderInterface $testBuilder)
     {
         $testBuilder->reset();
-        $testBuilder->setSetup('Test Builder setup');
-        $testBuilder->setMethods(['']);
     }
 
 
@@ -24,7 +23,7 @@ class TestDirector
     {
     }
 
-    public function makeTest(SmartFileInfo $file) : void
+    public function makeTestCase(TestBuilder $testBuilder, SmartFileInfo $file) : void
     {
         // get file content
         $content = $file->getContents();
@@ -35,9 +34,13 @@ class TestDirector
         // parse file into AST
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
         try {
+            $filename = $file->getFilenameWithoutExtension() . 'Test';
+            $testBuilder->setName($filename);
+            $testBuilder->setFile($file);
             $ast = $parser->parse($content);
-            $dumper = new NodeDumper;
-            echo $dumper->dump($ast);
+            $testBuilder->setAst($ast);
+
+            dd($testBuilder->getObject());
 
         } catch (Error $error) {
             echo "Parse error: {$error->getMessage()}\n";
