@@ -23,14 +23,19 @@ class TestDirector
     }
 
 
-    public function analyzeTests(SmartFileInfo $file) : void
+    public function analyzeTest(SmartFileInfo $file) : void
     {
-
     }
 
     public function makeTest(SmartFileInfo $file) : void
     {
+        // get file content
         $content = $file->getContents();
+
+        // analyze file
+        // TODO: can it be tested? generate measurements of the file (complexity, type interactions, class/method length)
+
+        // parse file into AST
         $parser = (new ParserFactory())->create(ParserFactory::PREFER_PHP7);
         try {
             $ast = $parser->parse($content);
@@ -40,6 +45,8 @@ class TestDirector
         } catch (Error $error) {
             echo "Parse error: {$error->getMessage()}\n";
         }
+
+        // generate test from AST
     }
 
 }
