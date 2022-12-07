@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Printer;
-
 use App\DataTransferObject\TestDto;
+use PhpParser\Node;
 use App\Printer\Contract\PrinterInterface;
 use PhpParser\PrettyPrinter\Standard;
 use Symplify\SmartFileSystem\SmartFileSystem;
@@ -11,7 +11,7 @@ class Printer implements PrinterInterface
 {
     private const TEST_DIR = __DIR__.'/../../tests/';
 
-    public function print(TestDto $testDto): void
+    public function print(TestDto $testDto, Node $node): void
     {
        $filesystem = new SmartFileSystem();
 
@@ -20,7 +20,8 @@ class Printer implements PrinterInterface
        }
 
         $prettyPrinter = new Standard();
-        $content = $prettyPrinter->prettyPrintFile($testDto->getContent());
+        $stmts = array($node);
+        $content = $prettyPrinter->prettyPrintFile($stmts);
         $filesystem->dumpFile(self::TEST_DIR.$testDto->getFilename(), $content);
     }
 }

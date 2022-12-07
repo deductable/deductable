@@ -2,11 +2,11 @@
 
 namespace App\Builder\TestBuilder;
 
-use App\Builder\TestBuilder\Contract\TestBuilderInterface;
+use App\Builder\TestBuilder\Contract\TestDtoBuilderInterface;
 use App\DataTransferObject\TestDto;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-class TestBuilder implements TestBuilderInterface
+class TestDtoDtoBuilder implements TestDtoBuilderInterface
 {
     private TestDto $test;
 
@@ -22,9 +22,7 @@ class TestBuilder implements TestBuilderInterface
 
     public function getObject() : TestDto
     {
-        $test = $this->test;
-        $this->reset();
-        return $test;
+        return $this->test;
     }
 
     public function setFilename(string $filename): void

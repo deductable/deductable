@@ -6,7 +6,7 @@ namespace App\Builder\TestBuilder\Contract;
 use App\DataTransferObject\TestDto;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
-interface TestBuilderInterface
+interface TestDtoBuilderInterface
 {
     public function getObject();
 

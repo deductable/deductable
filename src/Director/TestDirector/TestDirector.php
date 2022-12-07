@@ -3,27 +3,36 @@
 namespace App\Director\TestDirector;
 
 
-use App\Builder\TestBuilder\Contract\TestBuilderInterface;
-use App\Builder\TestBuilder\TestBuilder;
+use App\Builder\TestBuilder\Contract\TestDtoBuilderInterface;
+use App\Builder\TestBuilder\TestDtoDtoBuilder;
+use App\ContentResolver\ConstructorInjectionResolver;
+use App\ContentResolver\MethodReturnTypeContentResolver;
+use App\DataTransferObject\TestDto;
 use App\Printer\Printer;
+use PhpParser\BuilderFactory;
 use PhpParser\Error;
 use PhpParser\ParserFactory;
+use PhpParser\PrettyPrinter\Standard;
+use PHPUnit\Framework\TestCase;
 use Symplify\SmartFileSystem\SmartFileInfo;
 
 class TestDirector
 {
 
-    public function __construct(TestBuilderInterface $testBuilder)
+    public function __construct(
+        private readonly ConstructorInjectionResolver $contentResolver,
+        TestDtoBuilderInterface                          $testBuilder
+    )
     {
         $testBuilder->reset();
     }
 
 
-    public function analyzeTest(SmartFileInfo $file) : void
+    public function analyzeTest(SmartFileInfo $file): void
     {
     }
 
-    public function makeTestCase(TestBuilder $testBuilder, SmartFileInfo $file) : void
+    public function makeTestCase(TestDtoDtoBuilder $testBuilder, SmartFileInfo $file): void
     {
         // get file content
         $content = $file->getContents();
@@ -41,18 +50,22 @@ class TestDirector
             $testBuilder->setFile($file);
             $ast = $parser->parse($content);
             $testBuilder->setAst($ast);
-            $testBuilder->setContent($ast);
 
         } catch (Error $error) {
             echo "Parse error: {$error->getMessage()}";
         }
 
-        // generate test from AST
+        // generate test in AST
+        $factory = new BuilderFactory();
 
+        $node = $factory->namespace('App\Test')
+            ->addStmt($factory->class($className)->extend(TestCase::class));
+
+        $this->contentResolver->resolve($testBuilder->getObject(), $node);
 
         // Print Test
         $printer = new Printer();
-        $printer->print($testBuilder->getObject());
+        $printer->print($testBuilder->getObject(), $node->getNode());
     }
 
 }

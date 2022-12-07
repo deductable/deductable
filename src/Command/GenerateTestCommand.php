@@ -2,7 +2,9 @@
 
 namespace App\Command;
 
-use App\Builder\TestBuilder\TestBuilder;
+use App\Builder\TestBuilder\TestDtoDtoBuilder;
+use App\ContentResolver\ConstructorInjectionResolver;
+use App\ContentResolver\MethodReturnTypeContentResolver;
 use App\Director\TestDirector\TestDirector;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -15,6 +17,13 @@ use Symplify\SmartFileSystem\SmartFileInfo;
 #[AsCommand(name: 'generate', description: 'generate phpunit tests')]
 class GenerateTestCommand extends Command
 {
+    public function __construct(
+        private readonly ConstructorInjectionResolver $contentResolver,
+    )
+    {
+        parent::__construct();
+    }
+
     /**
      * @throws FileNotFoundException
      */
@@ -25,8 +34,8 @@ class GenerateTestCommand extends Command
         $finder = new Finder();
         $files = $finder->files()->in($directory);
 
-        $testBuilder = new TestBuilder();
-        $director = new TestDirector($testBuilder);
+        $testBuilder = new TestDtoDtoBuilder();
+        $director = new TestDirector($this->contentResolver, $testBuilder);
         foreach ($files as $splFileInfo)
         {
             $file = new SmartFileInfo($splFileInfo);
