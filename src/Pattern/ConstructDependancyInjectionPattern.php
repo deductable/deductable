@@ -23,7 +23,7 @@ class ConstructDependancyInjectionPattern implements PatternInterface
     {
         $factory = new BuilderFactory();
         $methodName =  strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $classMethod->name)).'_test';
-        $node = $factory->method($methodName)->getNode();
+        $node = $factory->method($methodName)->makePublic()->getNode();
         return $node;
     }
 

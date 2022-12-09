@@ -37,13 +37,9 @@ class Printer implements PrinterInterface
     {
         $factory = new BuilderFactory();
         $className = $testDto->getFile()->getFilenameWithoutExtension() . 'Test';
+        $class = $factory->class($className)->extend(TestCase::class);
         $node = $factory->namespace('App\Test')
-            ->addStmt($factory->class($className)->extend(TestCase::class));
-
-        /** @var Node\Stmt\ClassMethod $classMethod */
-        foreach ($testDto->getMethods() as $classMethod) {
-            $node->addStmt($classMethod);
-        }
+            ->addStmt($class->addStmts($testDto->getMethods()->toArray()));
 
         return [$node->getNode()];
     }
