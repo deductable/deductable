@@ -2,24 +2,23 @@
 
 namespace App\DataTransferObject;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use PhpParser\Node\Stmt;
+use PhpParser\Node\Stmt\ClassMethod;
 use Symplify\SmartFileSystem\SmartFileInfo;
+use Doctrine\Common\Collections\Collection;
 
-class TestDto
+class TestFileDto
 {
     private string $className;
     private string $filename;
     private SmartFileInfo $file;
+    private Collection $methods;
 
-    /**
-     * @var array<int, Stmt> $content
-     */
-    private array $content;
-
-    /**
-     * @var array<int, Stmt> $ast
-     */
-    private array $ast;
+    public function __construct()
+    {
+        $this->methods = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -70,22 +69,6 @@ class TestDto
     }
 
     /**
-     * @return array<int, Stmt>
-     */
-    public function getAst(): array
-    {
-        return $this->ast;
-    }
-
-    /**
-     * @param array<int, Stmt> $ast
-     */
-    public function setAst(array $ast): void
-    {
-        $this->ast = $ast;
-    }
-
-    /**
      * @return array<int,Stmt>
      */
     public function getContent(): array
@@ -99,6 +82,29 @@ class TestDto
     public function setContent(array $content): void
     {
         $this->content = $content;
+    }
+
+    /**
+     * @return ArrayCollection<ClassMethod>>
+     */
+    public function getMethods(): Collection
+    {
+        return $this->methods;
+    }
+
+    public function addMethod(ClassMethod $method): self
+    {
+        if (! $this->methods->contains($method)) {
+            $this->methods[] = $method;
+        }
+
+        return $this;
+    }
+
+    public function removeImage(ClassMethod $method): self
+    {
+        $this->methods->removeElement($method);
+        return $this;
     }
 
 }

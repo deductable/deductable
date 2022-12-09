@@ -2,10 +2,9 @@
 
 namespace App\Printer\Contract;
 
-use App\DataTransferObject\TestDto;
-use PhpParser\Node;
+use App\DataTransferObject\TestFileDto;
 
 interface PrinterInterface
 {
-    public function print(TestDto $dto, Node $node) :void;
+    public function print(TestFileDto $testDto) :void;
 }
